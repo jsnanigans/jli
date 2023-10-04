@@ -3,12 +3,11 @@ import fs from "fs";
 import childProcess from "child_process";
 import simpleGit from "simple-git";
 import chalk from "chalk";
+import config from '../lib/checkConfig';
 
 const spawn = childProcess.spawn;
 
 const execPath = process.cwd();
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const packageJson = require(`${execPath}/package.json`);
 
 /**
  * Command: commit
@@ -37,7 +36,7 @@ program
 
     const gitBaseDir = await git.revparse(["--show-toplevel"]);
 
-    const prefix = packageJson?.jli?.featurePrefix;
+    const prefix = config.featurePrefix;
 
     // check if on feature branch
     const { current = "" } = await git.status();
