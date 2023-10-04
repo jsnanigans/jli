@@ -3,6 +3,7 @@ import simpleGit from 'simple-git';
 import chalk from 'chalk';
 
 const execPath = process.cwd();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJson = require(`${execPath}/package.json`);
 
 /**
@@ -29,10 +30,10 @@ program
     }
 
     const ticket = options.ticket;
-    const featurePrefix = packageJson?.jil?.featurePrefix;
+    const featurePrefix = packageJson?.jli?.featurePrefix;
 
     if (!featurePrefix) {
-      console.error('No feature prefix found in package.json, add jil.featurePrefix config');
+      console.error('No feature prefix found in package.json, add jli.featurePrefix config');
       return;
     }
 

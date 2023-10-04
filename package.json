@@ -9,11 +9,15 @@
   },
   "type": "module",
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
     "chalk": "^5.3.0",
     "commander": "^11.0.0",
-    "simple-git": "^3.20.0"
+    "eslint": "latest",
+    "simple-git": "^3.20.0",
+    "typescript": "^5.2.2"
   },
-  "jil": {
-    "featurePrefix": "JIL"
+  "jli": {
+    "featurePrefix": "JLI"
   }
 }
