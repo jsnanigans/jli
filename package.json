@@ -18,6 +18,7 @@
     "typescript": "^5.2.2"
   },
   "jli": {
-    "featurePrefix": "JLI"
+    "featurePrefix": "JLI",
+    "baseBranch": "main"
   }
 }

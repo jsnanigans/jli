@@ -31,9 +31,15 @@ program
 
     const ticket = options.ticket;
     const featurePrefix = packageJson?.jli?.featurePrefix;
+    const baseBranch = packageJson?.jli?.baseBranch;
 
     if (!featurePrefix) {
       console.error('No feature prefix found in package.json, add jli.featurePrefix config');
+      return;
+    }
+
+    if (!baseBranch) {
+      console.error('No base branch found in package.json, add jli.baseBranch config');
       return;
     }
 
@@ -42,7 +48,7 @@ program
 
 
     // check if branch exists
-    const branches = await git.branchLocal();
+    const branches = await git.branch();
     const branchExists = branches.all.includes(featureBranchName);
 
     if (branchExists) {
@@ -50,14 +56,14 @@ program
       await git.checkout(featureBranchName);
       console.log(`Switched to feature branch ${chalk.green(featureBranchName)}`)
     } else {
-      // checkout release branch and pull latest
-      console.log(`Switching to release branch ${chalk.green('release')}`)
-      await git.checkout('release');
-      console.log(`Pulling latest from release branch ${chalk.green('release')}`)
+      // checkout base branch and pull latest
+      console.log(`Switching to base branch ${chalk.green(baseBranch)}`)
+      await git.checkout(baseBranch);
+      console.log(`Pulling latest from release branch ${chalk.green(baseBranch)}`)
       await git.pull();
 
       // create feature branch from release
-      console.log(`Creating feature branch ${chalk.green(featureBranchName)} from release`)
+      console.log(`Creating feature branch ${chalk.green(featureBranchName)} from ${chalk.green(baseBranch)}`)
       await git.checkoutLocalBranch(featureBranchName);
       console.log(`Created feature branch ${chalk.green(featureBranchName)}`)
     }
