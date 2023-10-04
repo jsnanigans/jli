@@ -36,10 +36,22 @@ program
 
 
     const commitPrefix = isFeatureBranch ? `[${current?.split('/')[1]}]` : '';
-    console.log(commitPrefix);
 
-    // commit
-    // await git.add('.');
-    console.log(`Committing with message: ${chalk.green(options.message)}`)
-    await git.commit(`${commitPrefix} ${options.message}`);
+    // check and clean message
+    let message = options.message;
+    // remove quotes
+    message = message.replace(/['"]+/g, '');
+    // remove trailing spaces
+    message = message.trim();
+    // remove trailing period
+    message = message.replace(/\.$/, '');
+    // remove any [...] prefix
+    message = message.replace(/^\[.*\]/, '');
+    // capitalize first letter
+    message = message.charAt(0).toUpperCase() + message.slice(1);
+
+    const fullMessage = `${commitPrefix} ${message}`
+
+    console.log(`Committing with message: "${chalk.green(fullMessage)}"`)
+    await git.commit(fullMessage);
   });
