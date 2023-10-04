@@ -39,14 +39,14 @@ program
 
     // check and clean message
     let message = options.message;
+    // remove any [...] prefix
+    message = message.replace(/^\[.*\]/, '');
     // remove quotes
     message = message.replace(/['"]+/g, '');
     // remove trailing spaces
     message = message.trim();
     // remove trailing period
     message = message.replace(/\.$/, '');
-    // remove any [...] prefix
-    message = message.replace(/^\[.*\]/, '');
     // capitalize first letter
     message = message.charAt(0).toUpperCase() + message.slice(1);
 
