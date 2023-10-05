@@ -3,7 +3,7 @@ import fs from "fs";
 import childProcess from "child_process";
 import simpleGit from "simple-git";
 import chalk from "chalk";
-import config from '../lib/checkConfig';
+import config from "../lib/checkConfig";
 
 const spawn = childProcess.spawn;
 
@@ -34,12 +34,11 @@ program
       process.exit(1);
     }
 
+    const prefix = await config.featurePrefix();
     const gitBaseDir = await git.revparse(["--show-toplevel"]);
-
-    const prefix = config.featurePrefix;
+    const { current = "" } = await git.status();
 
     // check if on feature branch
-    const { current = "" } = await git.status();
     const isFeatureBranch = current.includes(`feature/${prefix}`);
 
     const commitPrefix = isFeatureBranch ? `[${current?.split("/")[1]}]` : "";
@@ -57,7 +56,7 @@ program
     // capitalize first letter
     message = message.charAt(0).toUpperCase() + message.slice(1);
 
-    const fullMessage = `${commitPrefix} ${message}`;
+    const fullMessage = `${commitPrefix} ${message}`.trim();
 
     const stagedFiles = await git.diff(["--cached", "--name-only"]);
     const filesList = stagedFiles.split("\n").filter(Boolean);
@@ -111,7 +110,7 @@ program
       if (errors.length > 0) {
         console.log(`Lint errors found in ${errors.length} files`);
         for (const error of errors) {
-          console.error((error as unknown as {reason: string}).reason);
+          console.error((error as unknown as { reason: string }).reason);
         }
         process.exit(1);
       }
